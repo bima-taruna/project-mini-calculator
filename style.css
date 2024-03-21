@@ -41,7 +41,8 @@ button {
     background-color: rgb(255, 123, 0);
 }
 
-.digit {
+.digit,
+.zero {
     background-color: rgb(39, 39, 39);
     color: white;
 }
