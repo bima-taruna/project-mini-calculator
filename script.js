@@ -4,6 +4,7 @@ const zero = document.querySelector(".zero");
 const resetButton = document.querySelector(".clear");
 const addButton = document.querySelector(".add");
 const subtractButton = document.querySelector(".subtract");
+const multiplyButton = document.querySelector(".multiply");
 const resultButton = document.querySelector(".result");
 let firstVal = null;
 let secondVal = null;
@@ -38,27 +39,43 @@ resetButton.addEventListener("click", () => {
 });
 
 addButton.addEventListener("click", () => {
-  if (resultButton.classList.contains("add")) {
-    addTrigger();
-  }
   operationName = "add";
   displayArr = [];
   digits.forEach((item) => {
     item.classList.add("operation");
   });
   addOperationToResult();
+  if (resultButton.classList.length > 2) {
+    operationTrigger(resultButton.classList[1]);
+    resultButton.classList.replace(resultButton.classList[1], operationName);
+  }
 });
 
 subtractButton.addEventListener("click", () => {
-  if (resultButton.classList.contains("subtract")) {
-    subTrigger();
-  }
   operationName = "subtract";
   displayArr = [];
   digits.forEach((item) => {
     item.classList.add("operation");
   });
   addOperationToResult();
+  if (resultButton.classList.length > 2) {
+    operationTrigger(resultButton.classList[1]);
+    resultButton.classList.replace(resultButton.classList[1], operationName);
+  }
+});
+
+multiplyButton.addEventListener("click", () => {
+  operationName = "multiply";
+  displayArr = [];
+  digits.forEach((item) => {
+    item.classList.add("operation");
+  });
+  addOperationToResult();
+  console.log(operationName);
+  if (resultButton.classList.length > 2) {
+    operationTrigger(resultButton.classList[1]);
+    resultButton.classList.replace(resultButton.classList[1], operationName);
+  }
 });
 
 resultButton.addEventListener("click", () => {
@@ -70,9 +87,14 @@ resultButton.addEventListener("click", () => {
     subTrigger();
     resultButton.classList.remove("subtract");
   }
+  if (resultButton.classList.contains("multiply")) {
+    multiTrigger();
+    resultButton.classList.remove("multiply");
+  }
   digits.forEach((item) => {
     item.classList.remove("operation");
   });
+  zero.classList.remove("operation");
 });
 
 function addTrigger() {
@@ -87,12 +109,22 @@ function subTrigger() {
   firstVal = resultVal;
 }
 
+function multiTrigger() {
+  resultVal = multiply(firstVal, secondVal);
+  display.textContent = resultVal;
+  firstVal = resultVal;
+}
+
 function add(num1, num2) {
   return num1 + num2;
 }
 
 function subtract(num1, num2) {
   return num1 - num2;
+}
+
+function multiply(num1, num2) {
+  return num1 * num2;
 }
 
 function assignFirst(num) {
@@ -114,13 +146,26 @@ function reset() {
   firstVal = null;
   secondVal = null;
   resultVal = null;
+  digits.forEach((item) => {
+    item.classList.remove("operation");
+  });
+  zero.classList.remove("operation");
 }
 
 function addOperationToResult() {
   zero.classList.add("operation");
-  if (resultButton.classList.length == 2) {
-    resultButton.classList.replace(resultButton.classList[1], operationName);
-  } else {
-    resultButton.classList.add(operationName);
-  }
+  resultButton.classList.add(operationName);
 }
+
+let operationTrigger = function (operation) {
+  if (operation == "add") {
+    console.log("trigger add");
+    return addTrigger();
+  }
+  if (operation == "subtract") {
+    return subTrigger();
+  }
+  if (operation == "multiply") {
+    return multiTrigger();
+  }
+};
