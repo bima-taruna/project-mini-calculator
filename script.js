@@ -1,10 +1,12 @@
 const digits = document.querySelectorAll(".digit")
 const display = document.querySelector(".display")
 const zero = document.querySelector(".zero")
+const resetButton = document.querySelector('.clear')
 let displayArr = []
 
 buttonToDisplay()
 buttonZeroToDisplay()
+reset()
 
 function buttonToDisplay() {
     digits.forEach((item) => {
@@ -23,5 +25,12 @@ function buttonZeroToDisplay() {
             displayArr.push(zero.textContent)
             display.textContent = displayArr.join("")
         }
+    })
+}
+
+function reset() {
+    resetButton.addEventListener('click', () => {
+        displayArr = []
+        display.textContent = "0"
     })
 }
