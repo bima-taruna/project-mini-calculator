@@ -6,6 +6,7 @@ const addButton = document.querySelector(".add");
 const subtractButton = document.querySelector(".subtract");
 const multiplyButton = document.querySelector(".multiply");
 const resultButton = document.querySelector(".result");
+const divideButton = document.querySelector(".divide");
 let firstVal = null;
 let secondVal = null;
 let resultVal = null;
@@ -78,6 +79,19 @@ multiplyButton.addEventListener("click", () => {
   }
 });
 
+divideButton.addEventListener("click", () => {
+  operationName = "divide";
+  displayArr = [];
+  digits.forEach((item) => {
+    item.classList.add("operation");
+  });
+  addOperationToResult();
+  if (resultButton.classList.length > 2) {
+    operationTrigger(resultButton.classList[1]);
+    resultButton.classList.replace(resultButton.classList[1], operationName);
+  }
+});
+
 resultButton.addEventListener("click", () => {
   if (resultButton.classList.contains("add")) {
     addTrigger();
@@ -90,6 +104,10 @@ resultButton.addEventListener("click", () => {
   if (resultButton.classList.contains("multiply")) {
     multiTrigger();
     resultButton.classList.remove("multiply");
+  }
+  if (resultButton.classList.contains("divide")) {
+    divideTrigger();
+    resultButton.classList.remove("divide");
   }
   digits.forEach((item) => {
     item.classList.remove("operation");
