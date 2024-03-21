@@ -3,10 +3,12 @@ const display = document.querySelector(".display");
 const zero = document.querySelector(".zero");
 const resetButton = document.querySelector(".clear");
 const addButton = document.querySelector(".add");
+const subtractButton = document.querySelector(".subtract");
 const resultButton = document.querySelector(".result");
 let firstVal = null;
 let secondVal = null;
 let resultVal = null;
+let operationName = null;
 let displayArr = [];
 
 digits.forEach((item) => {
@@ -39,18 +41,34 @@ addButton.addEventListener("click", () => {
   if (resultButton.classList.contains("add")) {
     addTrigger();
   }
+  operationName = "add";
   displayArr = [];
   digits.forEach((item) => {
     item.classList.add("operation");
   });
-  zero.classList.add("operation");
-  resultButton.classList.add("add");
+  addOperationToResult();
+});
+
+subtractButton.addEventListener("click", () => {
+  if (resultButton.classList.contains("subtract")) {
+    subTrigger();
+  }
+  operationName = "subtract";
+  displayArr = [];
+  digits.forEach((item) => {
+    item.classList.add("operation");
+  });
+  addOperationToResult();
 });
 
 resultButton.addEventListener("click", () => {
   if (resultButton.classList.contains("add")) {
     addTrigger();
     resultButton.classList.remove("add");
+  }
+  if (resultButton.classList.contains("subtract")) {
+    subTrigger();
+    resultButton.classList.remove("subtract");
   }
   digits.forEach((item) => {
     item.classList.remove("operation");
@@ -63,8 +81,18 @@ function addTrigger() {
   firstVal = resultVal;
 }
 
+function subTrigger() {
+  resultVal = subtract(firstVal, secondVal);
+  display.textContent = resultVal;
+  firstVal = resultVal;
+}
+
 function add(num1, num2) {
   return num1 + num2;
+}
+
+function subtract(num1, num2) {
+  return num1 - num2;
 }
 
 function assignFirst(num) {
@@ -86,4 +114,13 @@ function reset() {
   firstVal = null;
   secondVal = null;
   resultVal = null;
+}
+
+function addOperationToResult() {
+  zero.classList.add("operation");
+  if (resultButton.classList.length == 2) {
+    resultButton.classList.replace(resultButton.classList[1], operationName);
+  } else {
+    resultButton.classList.add(operationName);
+  }
 }
